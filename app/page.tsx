@@ -1,13 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
+const URL =
+  process.env.BACKEND_URL ||
+  "https://todo-git-main-codewithharry35434gmailcoms-projects.vercel.app";
 export default function Home() {
   interface Document {
     _id: string;
     title: string;
     __v: number;
   }
+
   const [todo, setTodo] = useState<string>("");
   const [List, setList] = useState<Document[]>([]);
   const [Index, setIndexes] = useState<number>();
@@ -15,7 +18,7 @@ export default function Home() {
   const Add = async () => {
     const NewList = { title: todo };
 
-    const SendTodo = await fetch("http://localhost:3000/api/todo", {
+    const SendTodo = await fetch(`${URL}/api/todo`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -29,7 +32,7 @@ export default function Home() {
   };
   const remove = async (index: number, id: string) => {
     try {
-      const DeledData = await fetch("http://localhost:3000/api/TodoDel", {
+      const DeledData = await fetch(`${URL}/api/TodoDel`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -50,7 +53,7 @@ export default function Home() {
   const Update = async (index: number, to: Document) => {
     console.log(to);
     try {
-      const UpdateTodo = await fetch("http://localhost:3000/api/todo", {
+      const UpdateTodo = await fetch(`${URL}/api/todo`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -74,7 +77,7 @@ export default function Home() {
   //Fetch Data from DataBase
   useEffect(() => {
     async function Fetchdata() {
-      const res = await fetch("http://localhost:3000/api/TodoData");
+      const res = await fetch(`${URL}/api/TodoData`);
       const Data: Document[] = await res.json();
       setList(Data);
     }
